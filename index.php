@@ -10,48 +10,111 @@
 </head>
 
 <body>
-    <form name="calculator">
-        <div class="calculator card">
+    <div class="calculator card">
 
-            <input type="text" class="calculator-screen z-depth-1" name="pantalla" disabled placeholder="0" />
+        <input type="text" class="calculator-screen z-depth-1" name="pantalla" placeholder="0" id="screen" disabled />
+        <div class="calculator-keys">
 
-            <div class="calculator-keys">
+            <button type="button" class="btn btn-warning" onClick="mClear()">mc</button>
+            <button type="button" class="btn btn-warning" onClick="mPlus()">m+</button>
+            <button type="button" class="btn btn-warning" onClick="mSubtraction()">m-</button>
+            <button type="button" class="btn btn-warning" onClick="mRecall()">mr</button>
 
-                <input type="button" value="mc" class="btn btn-warning" onClick="plus.value=''">
-                <input type="hidden" value="" name="plus" class="btn">
-                <input type="button" value="m+" class="btn btn-warning" onClick="plus.value=pantalla.value">
-                <input type="button" value="m-" class="btn btn-warning" onClick="plus.value-=pantalla.value">
-                <input type="button" value="mr" name="recall" class="btn btn-warning" onClick="pantalla.value=plus.value">
+            <button type="button" class="btn btn-danger btn-sm" onClick="reset()">AC</button>
+            <button type="button" class="btn btn-info" onClick="percentage()">%</button>
+            <button type="button" class="btn btn-info" onClick="raiz()">&radic;</button>
+            <button type="button" class="btn btn-info" onClick="item('/')">/</button>
+            <!-- onClick="pantalla.value+='\u221a'" -->
 
-                <input type="button" value="AC" class="all-clear function btn btn-danger btn-sm" onClick="pantalla.value=''">
-                <input type="button" value="%" class="operator btn btn-info" onClick="pantalla.value+=''">
-                <input type="button" value="√" class="operator btn btn-info" onClick="pantalla.value+=''">
-                <input type="button" value="/" class="operator btn btn-info" onClick="pantalla.value+='/'">
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(7)">7</button>
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(8)">8</button>
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(9)">9</button>
+            <button type="button" class="btn btn-info" onClick="item('*')">x</button>
 
-                <input type="button" value="7" class="btn btn-secondary waves-effect" onClick="pantalla.value+='7'">
-                <input type="button" value="8" class="btn btn-secondary waves-effect" onClick="pantalla.value+='8'">
-                <input type="button" value="9" class="btn btn-secondary waves-effect" onClick="pantalla.value+='9'">
-                <input type="button" value="*" class="operator btn btn-info" onClick="pantalla.value+='*'">
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(4)">4</button>
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(5)">5</button>
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(6)">6</button>
+            <button type="button" class="btn btn-info" onClick="item('-')">-</button>
 
-                <input type="button" value="4" class="btn btn-secondary waves-effect" onClick="pantalla.value+='4'">
-                <input type="button" value="5" class="btn btn-secondary waves-effect" onClick="pantalla.value+='5'">
-                <input type="button" value="6" class="btn btn-secondary waves-effect" onClick="pantalla.value+='6'">
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(1)">1</button>
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(2)">2</button>
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(3)">3</button>
 
-                <input type="button" value="-" class="operator btn btn-info" onClick="pantalla.value+='-'">
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item(0)">0</button>
+            <button type="button" class="btn btn-secondary waves-effect" onClick="item('.')">.</button>
+            <button type="button" class="btn btn-primary waves-effect" onClick="calcular()">=</button>
 
-                <input type="button" value="1" class="btn btn-secondary waves-effect" onClick="pantalla.value+='1'">
-                <input type="button" value="2" class="btn btn-secondary waves-effect" onClick="pantalla.value+='2'">
-                <input type="button" value="3" class="btn btn-secondary waves-effect" onClick="pantalla.value+='3'">
+            <button type="button" class="equal-sign operator btn btn-success" onClick="item('+')">+</button>
 
-                <input type="button" value="0" class="btn btn-secondary waves-effect" onClick="pantalla.value+='0'">
-                <input type="button" value="." class="btn btn-secondary waves-effect" onClick="pantalla.value+='.'">
-                <input type="button" value="=" class="operator btn btn-primary" onClick="pantalla.value=eval(pantalla.value)">
-
-                <input type="button" value="+" class="equal-sign operator btn btn-success" onClick="pantalla.value+='+'">
-            </div>
         </div>
-    </form>
-    <!-- <script src="./assets/js/funciones.js"></script> -->
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script>
+        function item(valor) {
+            screen = document.getElementById("screen");
+            valorViejo = screen.value;
+            comprueba = valorViejo.slice((valorViejo.length - 1), valorViejo.length);
+            // console.log("comprueba:");
+            // console.log(comprueba);
+            if ((comprueba == '+' || comprueba == '-' || comprueba == '*' || comprueba == '/') && (valor == '-' || valor == '*' || valor == '+' || valor == '/')) {
+                // console.log('NO se puede realizar');
+            } else {
+                if (valorViejo.length == 0 && (valor == '-' || valor == '*' || valor == '+' || valor == '/')) {
+                    // console.log('No signo -');
+                } else {
+                    valorNuevo = valorViejo + valor;
+                    screen.value = valorNuevo;
+                }
+
+            }
+        }
+
+        function reset() {
+            screen = document.getElementById("screen");
+            screen.value = "";
+            console.log("longitud:", screen.length);
+        }
+
+        function raiz() {
+            screen = document.getElementById("screen");
+            valor = screen.value;
+
+            $.ajax({
+                url: 'server.php',
+                method: 'post',
+                data: {
+                    'raiz': valor
+                }
+            }).done(function(respuesta) {
+
+                screen.value = respuesta;
+            })
+        }
+
+        function calcular() {
+            screen = document.getElementById("screen");
+            valor = screen.value;
+            comprueba = valor.slice((valor.length - 1), valor.length);
+            console.log(comprueba);
+            if (comprueba == '+' || comprueba == '-' || comprueba == '*' || comprueba == '/') {
+                //console.log('NO se puede realizar');
+                valorNuevo = valor.slice(0, (valor.length - 1));
+                console.log("longitud:", valorNuevo.length);
+                console.log("valor:", valorNuevo);
+            }
+            $.ajax({
+                url: 'server.php',
+                method: 'post',
+                data: {
+                    'resultado': valorNuevo
+                }
+            }).done(function(respuesta) {
+                screen.value = respuesta;
+            })
+        }
+    </script>
 </body>
 
 </html>
