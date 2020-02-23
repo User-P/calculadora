@@ -33,14 +33,14 @@ html {
   font-size: 4rem;
 }
 
-button {
+.btn {
   height: 60px;
   font-size: 2rem !important;
 }
 
 .equal-sign {
   height: 98%;
-  grid-area: 4 / 4 / 6 / 5;
+  grid-area: 5 / 4 / 7 / 4;
 }
 
 .calculator-keys {
