@@ -12,11 +12,12 @@
 <body>
     <div class="calculator card">
 
-        <input type="text" class="calculator-screen z-depth-1" name="pantalla" placeholder="0" id="screen" disabled />
+        <input type="text" class="calculator-screen z-depth-1" placeholder="0" id="screen" disabled />
         <div class="calculator-keys">
 
             <button type="button" class="btn btn-warning" onClick="mClear()">mc</button>
             <button type="button" class="btn btn-warning" onClick="mPlus()">m+</button>
+            <input type="text" id="plus" />
             <button type="button" class="btn btn-warning" onClick="mSubtraction()">m-</button>
             <button type="button" class="btn btn-warning" onClick="mRecall()">mr</button>
 
@@ -52,6 +53,10 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script>
+        $(document).ready(function() {
+            $("#plus").hide();
+        })
+
         function item(valor) {
             screen = document.getElementById("screen");
             valorViejo = screen.value;
@@ -73,7 +78,7 @@
 
         function reset() {
             screen = document.getElementById("screen");
-            screen.value = "";
+            screen.value = null;
             console.log("longitud:", screen.length);
         }
 
@@ -93,26 +98,63 @@
             })
         }
 
+        function mClear() {
+            plus = document.getElementById("plus");
+            plus.value = null;
+        }
+
+        function mPlus() {
+            plus = document.getElementById("plus");
+            screen = document.getElementById("screen");
+            console.log("Plus vale:", plus.value)
+            if (plus.value != '') {
+                plus.value = parseInt(plus.value) + parseInt(screen.value);
+            } else {
+                plus.value += screen.value;
+
+            }
+            // console.log("Plus parse:", plus.value)
+            // console.log("Plus parse:", plus.value)
+        }
+
+        function mRecall() {
+            screen = document.getElementById("screen");
+            plus = document.getElementById("plus");
+            screen.value = plus.value
+        }
+
+        function mSubtraction() {
+            document.getElementById("plus").value -= document.getElementById("screen").value;
+        }
+
         function calcular() {
             screen = document.getElementById("screen");
             valor = screen.value;
-            comprueba = valor.slice((valor.length - 1), valor.length);
-            console.log(comprueba);
-            if (comprueba == '+' || comprueba == '-' || comprueba == '*' || comprueba == '/') {
-                //console.log('NO se puede realizar');
-                valorNuevo = valor.slice(0, (valor.length - 1));
-                console.log("longitud:", valorNuevo.length);
-                console.log("valor:", valorNuevo);
-            }
-            $.ajax({
-                url: 'server.php',
-                method: 'post',
-                data: {
-                    'resultado': valorNuevo
+            if (valor == '') {
+                screen.value = valor;
+                console.log("entro es: ", screen.value)
+
+            } else {
+                console.log("el valor es: ", screen.value)
+                comprueba = valor.slice((valor.length - 1), valor.length);
+                console.log(comprueba);
+                if (comprueba == '+' || comprueba == '-' || comprueba == '*' || comprueba == '/') {
+                    //console.log('NO se puede realizar');
+                    valorNuevo = valor.slice(0, (valor.length - 1));
+                    console.log("longitud:", valorNuevo.length);
+                    console.log("valor:", valorNuevo);
                 }
-            }).done(function(respuesta) {
-                screen.value = respuesta;
-            })
+                $.ajax({
+                    url: 'server.php',
+                    method: 'post',
+                    data: {
+                        'resultado': valorNuevo
+                    }
+                }).done(function(respuesta) {
+                    screen.value = respuesta;
+                })
+            }
+
         }
     </script>
 </body>
